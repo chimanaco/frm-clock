@@ -12,6 +12,7 @@
 const week = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const month = ['January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December'];
+
 export default {
   name: 'WorldClock',
   props: ['city', 'zone'],
@@ -36,8 +37,9 @@ export default {
       return (zero + num).slice(-digit);
     },
     updateTime() {
-      this.date = this.showDate(this.zone);
-      this.time = this.showTime(this.zone);
+      this.tzTime = this.getTimeZoneTime(this.zone);
+      this.date = this.showDate(this.tzTime);
+      this.time = this.showTime(this.tzTime);
     },
     dateToTimeString(dt) {
       const hh = `${this.zeroPadding(dt.getUTCHours(), 2)}`;
@@ -53,13 +55,17 @@ export default {
       const ww = `${week[dt.getUTCDay()]}`;
       return `${ww} ${dd} ${mm}`;
     },
-    showDate(timeZone) {
+    getTimeZoneTime(timeZone) {
       const tzTime = new Date(Date.now() + (timeZone * 3600000));
-      return this.dateToDateString(tzTime);
+      return tzTime;
     },
-    showTime(timeZone) {
-      const tzTime = new Date(Date.now() + (timeZone * 3600000));
-      return this.dateToTimeString(tzTime);
+    showDate(tzTime) {
+      const dateString = this.dateToDateString(tzTime);
+      return dateString;
+    },
+    showTime(tzTime) {
+      const timeString = this.dateToTimeString(tzTime);
+      return timeString;
     },
   },
 };
@@ -70,7 +76,6 @@ export default {
 .clockWrapper {
   position: relative;
   height: 640px;
-  //background-color: #287BD7;
 }
 
 .clock {

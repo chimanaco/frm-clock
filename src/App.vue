@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <WorldClock v-bind:city="cities[0]" v-bind:zone="zones[0]"></WorldClock>
-    <WorldClock v-bind:city="cities[1]" v-bind:zone="zones[1]"></WorldClock>
-    <WorldClock v-bind:city="cities[2]" v-bind:zone="zones[2]"></WorldClock>
+    <WorldClock v-bind:city="locations[0]" v-bind:zone="zones[0]"></WorldClock>
+    <WorldClock v-bind:city="locations[1]" v-bind:zone="zones[1]"></WorldClock>
+    <WorldClock v-bind:city="locations[2]" v-bind:zone="zones[2]"></WorldClock>
   </div>
 </template>
 
@@ -16,12 +16,19 @@ export default {
   },
   data() {
     return {
-      cities: ['VANCOUVER / CANADA', 'TOKYO / JAPAN', 'AMSTERDAM / NETHERLANDS'],
+      cities: ['VANCOUVER', 'TOKYO', 'AMSTERDAM'],
+      countries: ['CANADA', 'JAPAN', 'NETHERLANDS'],
       zones: [-8, 9, 1],
+      locations: [],
     };
   },
+  created() {
+    this.timeID = setInterval(this.updateTime, 1000);
+    for (let i = 0; i < this.cities.length; i += 1) {
+      this.locations[i] = `${this.cities[i]} | ${this.countries[i]}`;
+    }
+  },
 };
-
 </script>
 
 <style>
