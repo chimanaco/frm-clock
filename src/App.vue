@@ -1,44 +1,25 @@
 <template>
   <div id="app">
-  <div id="clock">
-    <p class="date">{{ date }}</p>
-    <p class="time">{{ time }}</p>
-  </div>
+    <WorldClock v-bind:id="item" v-bind:zone="zone"></WorldClock>
+    <WorldClock v-bind:id="item2" v-bind:zone="zone2"></WorldClock>
   </div>
 </template>
 
 <script>
-const week = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+import WorldClock from './components/WorldClock';
 
 export default {
   name: 'app',
   components: {
+    WorldClock,
   },
   data() {
     return {
-      time: '',
-      date: '',
-      timeID: '',
+      item: 'Tokyo',
+      zone: 9,
+      item2: 'Vancouver',
+      zone2: -8,
     };
-  },
-  created() {
-    // this.updateTime();
-    this.timeID = setInterval(this.updateTime, 1000);
-  },
-  methods: {
-    zeroPadding(num, digit) {
-      let zero = '';
-      let i;
-      for (i = 0; i < digit; i += 1) {
-        zero += '0';
-      }
-      return (zero + num).slice(-digit);
-    },
-    updateTime() {
-      const cd = new Date();
-      this.time = `${this.zeroPadding(cd.getHours(), 2)}:${this.zeroPadding(cd.getMinutes(), 2)}:${this.zeroPadding(cd.getSeconds(), 2)}`;
-      this.date = `${this.zeroPadding(cd.getFullYear(), 4)}-${this.zeroPadding(cd.getMonth() + 1, 2)}-${this.zeroPadding(cd.getDate(), 2)} ${week[cd.getDay()]}`;
-    },
   },
 };
 
@@ -46,18 +27,22 @@ export default {
 
 <style>
 body {
+  margin: 0;
+  padding: 0;
   width: 100%;
   height: 100%;
   background: #000;
   color: #FFF;
+  //font-size: 50px;
 }
 
 #app {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  // position: absolute;
+  width: 100%;
+  // top: 50%;
+  // transform: translate(0, -50%);
+  font-family: Helvetica, Arial, sans-serif;
+  // font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 200px;
@@ -70,7 +55,7 @@ p {
   line-height: 1;
 }
 
-p.date {
+p.date, p.city {
   font-size: 110px;
 }
 
